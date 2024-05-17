@@ -5,7 +5,7 @@ from time import sleep
 from requests import get, post
 from json import dumps
 
-from report import config
+from backend import config
 
 
 def docx_to_pdf_by_api(src: str, dist: str):

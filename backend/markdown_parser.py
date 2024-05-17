@@ -16,8 +16,8 @@ import docx2pdf
 import latex2mathml.converter as latex_converter
 from pypdf import PdfMerger, PdfReader
 
-from report.commands import read_file
-from report.docx_api import docx_to_pdf_by_api
+from backend.commands import read_file
+from backend.docx_api import docx_to_pdf_by_api
 
 DEFAULT_STILES = {
     'Normal': {'font': 'Times New Roman', 'size': 14, 'color': (0, 0, 0)},
@@ -42,11 +42,12 @@ _UNKNOWN = 2
 
 
 class MarkdownParser:
-    def __init__(self, bm, text: str, dist: str, to_pdf="", styles=None, properties=None):
-        self.bm = bm
+    def __init__(self, text: str, dist: str, to_pdf="", styles=None, properties=None):
         self.text = text
         self.dist = dist
         self.to_pdf = to_pdf
+        self._temp_path = f"{os.path.dirname(os.path.dirname(__file__))}/temp"
+        os.makedirs(self._temp_path, exist_ok=True)
 
         self.document = docx.Document()
 
@@ -248,7 +249,7 @@ class MarkdownParser:
         default_text, image_path = line.strip()[2:line.index(')')].split('](')
         img = QPixmap(image_path)
         if image_path.endswith('.svg'):
-            img.save(image_path := f"{self.bm.sm.temp_dir()}/image.png")
+            img.save(image_path := f"{self._temp_path}/image.png")
         height, width = img.height(), img.width()
         if default_text.startswith('height='):
             h = int(default_text.lstrip('height='))
@@ -639,15 +640,15 @@ def count_in_start(line, symbol):
     return len(line) - len(line.lstrip(symbol))
 
 
-def convert(path, bm, pdf=False):
+def convert(path, pdf=False):
     file = path
     if pdf:
-        out_file = f"{bm.sm.temp_dir()}/out.docx"
+        out_file = f"{os.path.dirname(os.path.dirname(__file__))}/temp/out.docx"
         pdf_file = path[:path.rindex('.')] + '.pdf'
     else:
         out_file = path[:path.rindex('.')] + '.docx'
         pdf_file = ''
-    converter = MarkdownParser(bm, read_file(file, ''), out_file, pdf_file)
+    converter = MarkdownParser(read_file(file, ''), out_file, pdf_file)
     converter.convert()
 
 

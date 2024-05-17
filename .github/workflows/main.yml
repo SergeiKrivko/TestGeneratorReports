@@ -24,6 +24,8 @@ jobs:
       - name: Build
         run: |
           venv\Scripts\Activate.ps1
+          pyinstaller api.spec --noconfirm
+          mv dist/markdown_api markdown_api
           python setup.py -b
 
       - name: Upload artifacts
@@ -54,6 +56,8 @@ jobs:
       - name: Build
         run: |
           source venv/bin/activate
+          pyinstaller api.spec --noconfirm
+          mv dist/markdown_api markdown_api
           python3 setup.py -b
 
       - name: Upload artifacts
@@ -84,6 +88,8 @@ jobs:
       - name: Build
         run: |
           source venv/bin/activate
+          pyinstaller api.spec --noconfirm
+          mv dist/markdown_api markdown_api
           python3 setup.py -b
 
       - name: Upload artifacts

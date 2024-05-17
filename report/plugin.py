@@ -6,6 +6,8 @@ from StdioBridge.client import Client
 from TestGeneratorPluginLib import Plugin
 from TestGeneratorPluginLib._language import FastRunAsyncFunction
 
+from report.markdown_patterns import Form, write_file
+
 
 class ReportsPlugin(Plugin, QObject):
     def __init__(self, bm):
@@ -16,6 +18,10 @@ class ReportsPlugin(Plugin, QObject):
             FastRunAsyncFunction('Конвертировать в Docx', 'custom-docx', self.to_docx),
             FastRunAsyncFunction('Конвертировать в Pdf', 'custom-pdf', self.to_pdf)
         ]}
+        self.files_create_options = {'md': (Form, lambda p, d: write_file(bm, p, d))}
+
+    def terminate(self):
+        self._client.terminate()
 
     async def to_docx(self, path, bm):
         resp = await self._client.post("convert/to-docx", {

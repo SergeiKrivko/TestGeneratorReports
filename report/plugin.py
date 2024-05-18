@@ -25,14 +25,16 @@ class ReportsPlugin(Plugin, QObject):
 
     async def to_docx(self, path, bm):
         resp = await self._client.post("convert/to-docx", {
-            "path": path,
+            'src': path,
+            'dst': path[:path.rindex('.')] + '.docx'
         })
         if not resp.ok:
             raise Exception(resp.data.get('message'))
 
     async def to_pdf(self, path, bm):
         resp = await self._client.post("convert/to-pdf", {
-            "path": path,
+            'src': path,
+            'dst': path[:path.rindex('.')] + '.pdf'
         })
         if not resp.ok:
             raise Exception(resp.data.get('message'))

@@ -4,7 +4,7 @@ import sys
 from time import sleep
 
 import docx
-from PyQt6.QtGui import QPixmap
+from PIL import Image
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.oxml import OxmlElement, ns
 from docx.shared import Pt, RGBColor, Mm
@@ -16,7 +16,7 @@ import docx2pdf
 import latex2mathml.converter as latex_converter
 from pypdf import PdfMerger, PdfReader
 
-from backend.commands import read_file
+from backend.commands import read_file, temp_path
 from backend.docx_api import docx_to_pdf_by_api
 
 DEFAULT_STILES = {
@@ -46,8 +46,7 @@ class MarkdownParser:
         self.text = text
         self.dist = dist
         self.to_pdf = to_pdf
-        self._temp_path = f"{os.path.dirname(os.path.dirname(__file__))}/temp"
-        os.makedirs(self._temp_path, exist_ok=True)
+        os.makedirs(temp_path(), exist_ok=True)
 
         self.document = docx.Document()
 
@@ -247,10 +246,10 @@ class MarkdownParser:
         if not re.match(r"!\[[\w.=\\/:]*]\([\w.\\/:]+\)", line.strip()):
             return False
         default_text, image_path = line.strip()[2:line.index(')')].split('](')
-        img = QPixmap(image_path)
-        if image_path.endswith('.svg'):
-            img.save(image_path := f"{self._temp_path}/image.png")
-        height, width = img.height(), img.width()
+        img = Image.open(image_path)
+        # if image_path.endswith('.svg'):0
+        height, width = img.height, img.width
+        img.close()
         if default_text.startswith('height='):
             h = int(default_text.lstrip('height='))
             width = width * h // height
@@ -640,29 +639,13 @@ def count_in_start(line, symbol):
     return len(line) - len(line.lstrip(symbol))
 
 
-def convert(path, pdf=False):
+def convert(path, dst, pdf=False):
     file = path
     if pdf:
-        out_file = f"{os.path.dirname(os.path.dirname(__file__))}/temp/out.docx"
-        pdf_file = path[:path.rindex('.')] + '.pdf'
+        out_file = f"{temp_path()}/out.docx"
+        pdf_file = dst
     else:
-        out_file = path[:path.rindex('.')] + '.docx'
+        out_file = dst
         pdf_file = ''
     converter = MarkdownParser(read_file(file, ''), out_file, pdf_file)
     converter.convert()
-
-
-if __name__ == '__main__':
-    from sys import argv
-
-    with open(argv[1], encoding='utf-8') as f:
-        converter = MarkdownParser(None, f.read(), argv[2], to_pdf='' if len(argv) < 5 else argv[3])
-        # converter = MarkdownParser2(None, f.read())
-    converter.convert()
-    # pdf_converter = PdfConverter(converter.document, argv[3])
-    # pdf_converter.convert()
-    if len(argv) >= 5:
-        if os.path.isabs(argv[3]):
-            os.system(argv[3])
-        else:
-            os.system(f".{os.sep}{argv[3]}")

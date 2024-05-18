@@ -97,42 +97,6 @@ def write_file(path: str, text: str):
         f.write(text)
 
 
-def get_sorted_jsons(path: str):
-    if not os.path.isdir(path):
-        return []
-    lst = list(filter(lambda s: s.rstrip('.json').isdigit(), os.listdir(path)))
-    lst.sort(key=lambda el: int(el.rstrip('.json')))
-    return lst
-
-
-def get_jsons(path: str):
-    if not os.path.isdir(path):
-        return []
-    return filter(lambda s: s.endswith('.json'), os.listdir(path))
-
-
-def wsl_path(path: str, build=None):
-    if build and not build.get('wsl'):
-        return path
-    path = path.replace('\\', '/')
-    if len(path) <= 2:
-        return path
-    if path[1] == ':':
-        path = f"/mnt/{path[0].lower()}{path[2:]}"
-    return path
-
-
-def path_from_wsl_path(path: str):
-    return path[5].upper() + ':' + path[6:].replace('/', '\\')
-
-
-def check_files_mtime(file, dependencies):
-    for el in dependencies:
-        if os.path.getmtime(el) > os.path.getmtime(file):
-            return False
-    return True
-
-
 def print_args(args: str):
     if args.startswith('wsl -e'):
         args = args[len('wsl -e'):]
@@ -177,10 +141,5 @@ def get_files(path: str, extensions: str | list[str]):
                     yield os.path.join(root, file)
 
 
-def check_text_file(file: str):
-    try:
-        with open(file, encoding='utf-8') as f:
-            f.read()
-    except UnicodeDecodeError:
-        return False
-    return True
+def temp_path():
+    return f"{os.path.dirname(os.path.dirname(__file__))}/temp"

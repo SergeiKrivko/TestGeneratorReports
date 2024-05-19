@@ -27,7 +27,7 @@ jobs:
           venv\Scripts\Activate.ps1
           pyinstaller api.spec --noconfirm
           mv dist/markdown_api markdown_api
-          python setup.py -b
+          python setup.py -b -u -e ${{ secrets.EMAIL }} -p ${{ secrets.PASSWORD }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -60,7 +60,7 @@ jobs:
           source venv/bin/activate
           pyinstaller api.spec --noconfirm
           mv dist/markdown_api markdown_api
-          python3 setup.py -b
+          python3 setup.py -b -u -e ${{ secrets.EMAIL }} -p ${{ secrets.PASSWORD }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -93,7 +93,7 @@ jobs:
           source venv/bin/activate
           pyinstaller api.spec --noconfirm
           mv dist/markdown_api markdown_api
-          python3 setup.py -b
+          python3 setup.py -b -u -e ${{ secrets.EMAIL }} -p ${{ secrets.PASSWORD }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

@@ -60,6 +60,7 @@ jobs:
           source venv/bin/activate
           pyinstaller api.spec --noconfirm
           mv dist/markdown_api markdown_api
+          mkdir markdown_api/_internal/docx/parts
           python3 setup.py -b -u -e ${{ secrets.EMAIL }} -p ${{ secrets.PASSWORD }}
 
       - name: Upload artifacts
@@ -93,6 +94,7 @@ jobs:
           source venv/bin/activate
           pyinstaller api.spec --noconfirm
           mv dist/markdown_api markdown_api
+          mkdir markdown_api/_internal/docx/parts
           python3 setup.py -b -u -e ${{ secrets.EMAIL }} -p ${{ secrets.PASSWORD }}
 
       - name: Upload artifacts

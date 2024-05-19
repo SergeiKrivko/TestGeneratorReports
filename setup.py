@@ -9,4 +9,5 @@ plugin = PluginSetup(
     author="SergeiKrivko",
 
     directories=['report', 'markdown_api'],
+    platform_specific=True,
 )

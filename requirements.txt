@@ -4,7 +4,7 @@ latex2mathml~=3.77.0
 htmldocx~=0.0.6
 pypdf~=3.17.4
 PyQtUIkit
-TestGeneratorPluginLib~=1.2.4
+TestGeneratorPluginLib~=1.2.5
 StdioBridge~=1.2.2
 Pillow
 lxml~=5.2.2

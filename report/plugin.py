@@ -19,6 +19,7 @@ class ReportsPlugin(Plugin, QObject):
             FastRunAsyncFunction('Конвертировать в Pdf', 'custom-pdf', self.to_pdf)
         ]}
         self.files_create_options = {'md': (Form, lambda p, d: write_file(bm, p, d))}
+        self.run_client()
 
     def run_client(self):
         path = f"{os.path.dirname(os.path.dirname(__file__))}/markdown_api/api"

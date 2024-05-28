@@ -243,7 +243,7 @@ class MarkdownParser:
         return False
 
     def parse_image(self, line):
-        if not re.match(r"!\[[\w.=\\/:]*]\([\w.\\/:]+\)", line.strip()):
+        if not re.match(r"!\[[\w\s.=\\/:]*]\([\w\s.\\/:]+\)", line.strip()):
             return False
         default_text, image_path = line.strip()[2:line.index(')')].split('](')
         img = Image.open(image_path)

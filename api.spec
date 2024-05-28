@@ -1,18 +1,27 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import os
+
+
+lib_path = ''
+for root, _, _ in os.walk('venv'):
+    if root.endswith('site-packages'):
+        lib_path = root
+        break
+
 
 a = Analysis(
     ['api.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('backend/MML2OMML.XSL', 'backend'),
+           (f'{lib_path}/latex2mathml/unimathsymbols.txt', 'latex2mathml')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[],
     noarchive=False,
-    optimize=0,
 )
 pyz = PYZ(a.pure)
 

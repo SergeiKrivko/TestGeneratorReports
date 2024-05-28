@@ -1,6 +1,5 @@
 import asyncio
 import os
-import subprocess
 import sys
 
 from StdioBridge.client import Client

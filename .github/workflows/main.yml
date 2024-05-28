@@ -82,7 +82,7 @@ jobs:
       - name: Upload tests output
         uses: actions/upload-artifact@v4
         with:
-          name: tests-windows
+          name: tests-linux
           path: tests/results
 
       - name: Upload artifacts
@@ -127,7 +127,7 @@ jobs:
       - name: Upload tests output
         uses: actions/upload-artifact@v4
         with:
-          name: tests-windows
+          name: tests-macos
           path: tests/results
 
       - name: Upload artifacts

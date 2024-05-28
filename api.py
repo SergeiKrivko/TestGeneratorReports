@@ -7,6 +7,7 @@ app = Api()
 
 @app.post('convert/to-docx')
 def convert_to_docx(data: dict):
+    print(f"Converting {data['src']} to docx")
     if 'src' not in data or 'dst' not in data:
         raise errors.ErrorUnprocessableEntity
     convert(data['src'], data['dst'])
@@ -14,6 +15,7 @@ def convert_to_docx(data: dict):
 
 @app.post('convert/to-pdf')
 def convert_to_docx(data: dict):
+    print(f"Converting {data['src']} to pdf")
     if 'src' not in data or 'dst' not in data:
         raise errors.ErrorUnprocessableEntity
     convert(data['src'], data['dst'], pdf=True)

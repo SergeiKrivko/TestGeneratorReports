@@ -10,8 +10,6 @@ async def main():
     path = f"{os.path.dirname(os.path.dirname(__file__))}/markdown_api/api"
     if sys.platform == 'win32':
         path += '.exe'
-    else:
-        subprocess.run(f'chmod 755 \"{path}\"')
     client = Client(path)
     os.makedirs('results', exist_ok=True)
 

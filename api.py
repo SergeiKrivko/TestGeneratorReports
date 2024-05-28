@@ -1,8 +1,8 @@
-from StdioBridge.api import Api, errors
+from StdioBridge.api import BridgeAPI, errors
 
 from backend.markdown_parser import convert
 
-app = Api()
+app = BridgeAPI()
 
 
 @app.post('convert/to-docx')

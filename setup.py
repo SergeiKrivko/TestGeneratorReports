@@ -5,7 +5,7 @@ plugin = PluginSetup(
     plugin='report.plugin.ReportsPlugin',
     name="Reports",
     description="## Официальное расширение\n\nПозволяет конвертировать файлы markdown в docx и pdf.\n",
-    version="1.1.4",
+    version="1.1.5",
     url="https://github.com/SergeiKrivko/TestGeneratorReports",
     author="SergeiKrivko",
 

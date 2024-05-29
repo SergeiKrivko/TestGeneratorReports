@@ -11,6 +11,8 @@ async def main():
         path += '.exe'
     client = Client(path)
     os.makedirs('results', exist_ok=True)
+    print(os.getcwd())
+    print(os.listdir('results'))
 
     resp = await client.post('convert/to-docx', {
         'src': os.path.join(os.path.dirname(__file__), 'test.md'),

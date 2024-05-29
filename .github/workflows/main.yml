@@ -29,16 +29,16 @@ jobs:
           mv dist/markdown_api markdown_api
           python setup.py -b -u -e ${{ secrets.EMAIL }} -p ${{ secrets.PASSWORD }}
 
-#      - name: Tests
-#        run: |
-#          venv\Scripts\Activate.ps1
-#          python tests/test_api.py
-#
-#      - name: Upload tests output
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: tests-windows
-#          path: tests/results
+      - name: Tests
+        run: |
+          venv\Scripts\Activate.ps1
+          python tests/test_api.py
+
+      - name: Upload tests output
+        uses: actions/upload-artifact@v4
+        with:
+          name: tests-windows
+          path: tests/results
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -74,18 +74,18 @@ jobs:
           mkdir markdown_api/_internal/docx/parts
           python3 setup.py -b -u -e ${{ secrets.EMAIL }} -p ${{ secrets.PASSWORD }}
 
-#      - name: Tests
-#        run: |
-#          ls
-#          ls markdown_api
-#          source venv/bin/activate
-#          python3 tests/test_api.py
-#
-#      - name: Upload tests output
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: tests-linux
-#          path: tests/results
+      - name: Tests
+        run: |
+          ls
+          ls markdown_api
+          source venv/bin/activate
+          python3 tests/test_api.py
+
+      - name: Upload tests output
+        uses: actions/upload-artifact@v4
+        with:
+          name: tests-linux
+          path: tests/results
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -121,18 +121,18 @@ jobs:
           mkdir markdown_api/_internal/docx/parts
           python3 setup.py -b -u -e ${{ secrets.EMAIL }} -p ${{ secrets.PASSWORD }}
 
-#      - name: Tests
-#        run: |
-#          ls
-#          ls markdown_api
-#          source venv/bin/activate
-#          python3 tests/test_api.py
-#
-#      - name: Upload tests output
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: tests-macos
-#          path: tests/results
+      - name: Tests
+        run: |
+          ls
+          ls markdown_api
+          source venv/bin/activate
+          python3 tests/test_api.py
+
+      - name: Upload tests output
+        uses: actions/upload-artifact@v4
+        with:
+          name: tests-macos
+          path: tests/results
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

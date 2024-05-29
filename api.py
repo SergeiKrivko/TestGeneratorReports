@@ -7,7 +7,7 @@ app = BridgeAPI()
 
 @app.post('convert/to-docx')
 def convert_to_docx(data: dict):
-    print(f"Converting {data['src']} to docx")
+    print(f"Converting {data.get('src')} to {data.get('dst')}")
     if 'src' not in data or 'dst' not in data:
         raise errors.ErrorUnprocessableEntity
     convert(data['src'], data['dst'])
@@ -15,7 +15,7 @@ def convert_to_docx(data: dict):
 
 @app.post('convert/to-pdf')
 def convert_to_docx(data: dict):
-    print(f"Converting {data['src']} to pdf")
+    print(f"Converting {data.get('src')} to {data.get('dst')}")
     if 'src' not in data or 'dst' not in data:
         raise errors.ErrorUnprocessableEntity
     convert(data['src'], data['dst'], pdf=True)

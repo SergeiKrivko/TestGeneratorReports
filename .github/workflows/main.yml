@@ -76,8 +76,6 @@ jobs:
 
       - name: Tests
         run: |
-          ls
-          ls markdown_api
           source venv/bin/activate
           python3 tests/test_api.py
 
@@ -123,8 +121,6 @@ jobs:
 
       - name: Tests
         run: |
-          ls
-          ls markdown_api
           source venv/bin/activate
           python3 tests/test_api.py
 

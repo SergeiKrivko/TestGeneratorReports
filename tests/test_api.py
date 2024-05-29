@@ -13,15 +13,15 @@ async def main():
     os.makedirs('results', exist_ok=True)
 
     resp = await client.post('convert/to-docx', {
-        'src': 'test.md',
-        'dst': 'results/test.docx',
+        'src': os.path.join(os.path.dirname(__file__), 'test.md'),
+        'dst': os.path.join(os.path.dirname(__file__), 'results/test.docx'),
     })
     if not resp.ok:
         raise Exception(resp.data)
 
     resp = await client.post('convert/to-pdf', {
-        'src': 'test.md',
-        'dst': 'results/test.pdf',
+        'src': os.path.join(os.path.dirname(__file__), 'test.md'),
+        'dst': os.path.join(os.path.dirname(__file__), 'results/test.pdf'),
     })
     if not resp.ok:
         raise Exception(resp.data)

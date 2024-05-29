@@ -42,10 +42,11 @@ _UNKNOWN = 2
 
 
 class MarkdownParser:
-    def __init__(self, text: str, dist: str, to_pdf="", styles=None, properties=None):
+    def __init__(self, text: str, dist: str, to_pdf="", styles=None, properties=None, base_path=None):
         self.text = text
         self.dist = dist
         self.to_pdf = to_pdf
+        self._base_path = base_path
         os.makedirs(temp_path(), exist_ok=True)
 
         self.document = docx.Document()
@@ -67,6 +68,13 @@ class MarkdownParser:
         self._italic = _NO
         self._bold = _NO
         self._code = _NO
+
+    def _path(self, path):
+        if os.path.isabs(path):
+            return path
+        if not self._base_path:
+            return path
+        return os.path.join(self._base_path, path)
 
     def _next_line(self):
         self._current_line += 1
@@ -229,7 +237,7 @@ class MarkdownParser:
 
     def parse_pdf_including(self, line):
         if line.startswith(tag := '[include-pdf]: <> ('):
-            self._pdf_to_merge.append(line.strip()[len(tag):-1])
+            self._pdf_to_merge.append(self._path(line.strip()[len(tag):-1]))
             return True
         return False
 
@@ -246,23 +254,21 @@ class MarkdownParser:
         if not re.match(r"!\[[\w\s.=\\/:]*]\([\w\s.\\/:]+\)", line.strip()):
             return False
         default_text, image_path = line.strip()[2:line.index(')')].split('](')
+        image_path = self._path(image_path)
         img = Image.open(image_path)
-        # if image_path.endswith('.svg'):0
         height, width = img.height, img.width
         img.close()
+
+        w, h = None, None
         if default_text.startswith('height='):
-            h = int(default_text.lstrip('height='))
-            width = width * h // height
-            height = h
+            h = Mm(int(default_text.lstrip('height=')))
         elif default_text.startswith('width='):
-            w = int(default_text.lstrip('width='))
-            height = height * w // width
-            width = w
-        elif width > 170:
-            height = height * 170 // width
-            width = 170
+            w = Mm(int(default_text.lstrip('width=')))
+        elif width > 600:
+            w = Mm(170)
+
         try:
-            self.document.add_picture(image_path, width=Mm(width), height=Mm(height))
+            self.document.add_picture(image_path, width=w, height=h)
         except Exception:
             self.document.add_paragraph(default_text)
         return True
@@ -647,5 +653,9 @@ def convert(path, dst, pdf=False):
     else:
         out_file = dst
         pdf_file = ''
-    converter = MarkdownParser(read_file(file, ''), out_file, pdf_file)
+    converter = MarkdownParser(read_file(file, ''), out_file, pdf_file, base_path=os.path.dirname(path))
     converter.convert()
+
+
+if __name__ == '__main__':
+    convert('../tests/test.md', '../tests/results/test.docx')

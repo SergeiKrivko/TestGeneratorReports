@@ -34,7 +34,13 @@ Some very interesting text in paragraph 2
 3. item 6
 4. item 7
 
+Some text before.
 [formula]: <> (Y = (10) \cdot 1 + (01) \cdot 1 = 11)
+Some text after.
+
+[formula-start]: <>
+(Y = (10) \cdot 1 + (01) \cdot 1 = 11)
+[formula-end]: <>
 
 ```python
 def main():
@@ -51,3 +57,8 @@ if __name__ == '__main__':
 ![image](img.png)
 
 ![image 4](img 4.png)
+
+| 1-1 | 2-1 | 3-1 |
+|-----|-----|-----|
+| 1-2 | 2-2 | 3-2 |
+| 1-3 | 2-3 | 3-3 |

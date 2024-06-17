@@ -26,7 +26,7 @@ class ReportsPlugin(Plugin, QObject):
         if sys.platform == 'win32':
             path += '.exe'
         else:
-            subprocess.run(f'chmod 755 \"{path}\"')
+            subprocess.run(f'chmod 755 \"{path}\"', shell=True)
         self._client = Client(path)
 
     def terminate(self):

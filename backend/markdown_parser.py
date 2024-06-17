@@ -639,6 +639,7 @@ class MarkdownParser:
         if not paragraph:
             paragraph = self.document.add_paragraph()
         paragraph._element.append(new_dom.getroot())
+        paragraph.add_run(' ')
 
 
 def count_in_start(line, symbol):
